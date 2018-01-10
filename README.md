@@ -169,15 +169,20 @@ docker push spertus/uaa
 
 ### 8) Create a kubernetes cluster in AZURE
 
-Login to your **Azure** account and follow the instructions:
+Login to your **Azure** account and follow the instructions (you will have to copy paste a generated code):
 ```
 az login
+
+-- Check if you have valid subscription:
+az account list --output table
 ```
 
 Create a resource group named `rgkub` on **AZURE** :
 ```
-az group create --name rgkub --location northeurope
+az group create --name rgkub --location westeurope
 ```
+
+Now, we are going to use the `aks` command line. See more informations about `aks` here : [https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest)
 
 Then use `aks` to create and manage a new kubernetes cluster named `jhkub`:
 ```
@@ -187,15 +192,32 @@ az aks create --resource-group rgkub --name jhkub --node-count 5 --generate-ssh-
 -- Open a connection to the kubernetes cluster to be able to use kubectl command line
 az aks get-credentials --resource-group rgkub --name jhkub
 
--- OPTIONAL: Check versions available for my current cluster
-az aks get-versions --resource-group rgkub --name jhkub --output table
-
--- OPTIONAL: Upgrade your cluster
-az aks upgrade --resource-group rgkub --name jhkub --kubernetes-version 1.8.2
 ```
 
+Usefuls command lines:
 
+```
+-- OPTIONAL : Set the default resource group (to omit --resource-group in command lines)
+az configure --defaults group=rgkub
 
+-- Get managed kubernetes cluster
+az aks list --output table
+
+-- Show a managed aks
+az aks show --resource-group rgkub --name jhkub
+
+-- Browse (with port forwarding) an aks dashboard
+az aks browse --resource-group rgkub --name jhkub
+
+-- Check versions available for my current cluster
+az aks get-versions --resource-group rgkub --name jhkub --output table
+
+-- Upgrade your cluster
+az aks upgrade --resource-group rgkub --name jhkub --kubernetes-version 1.8.2
+
+-- Scale node count
+az aks scale --resource-group rgkub --name jhkub --node-count 10 
+```
 
 ### 9) Apply kubernetes config on AZURE kubernetes cluster:
 
@@ -225,9 +247,6 @@ kubectl get deployment
 
 -- OPTIONAL : Scale on 3 replicats
 kubectl scale deployment catalog --replicas 3
-
--- OPTIONAL : launch console admin
-az acs kubernetes browse -g rgkub -n jhkub
 
 -- OPTIONAL : Port forwarding to see jhipster registry 
 kubectl port-forward [podname] 8761:8761
