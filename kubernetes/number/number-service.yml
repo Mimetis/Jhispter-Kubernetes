@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: number
+  namespace: default
+  labels:
+    app: number
+spec:
+  selector:
+    app: number
+  ports:
+  - name: web
+    port: 8082

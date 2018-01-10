@@ -1,0 +1,11 @@
+version: '2'
+services:
+    contoso-postgresql:
+        image: postgres:9.6.5
+        # volumes:
+        #     - ~/volumes/jhipster/contoso/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=contoso
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432
