@@ -1,6 +1,8 @@
 # Jhispter-Kubernetes
 Demos Jhispter and Kubernetes and microservices
 
+![](assets/architecture.PNG)
+
 ## 1) Generate all 4 projects
 
 In a new folder, generate the JHipster microservices architecture:
