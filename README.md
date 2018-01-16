@@ -251,3 +251,35 @@ kubectl scale deployment catalog --replicas 3
 -- OPTIONAL : Port forwarding to see jhipster registry 
 kubectl port-forward [podname] 8761:8761
 ```
+
+### 10) Adding a DNS to the public ip address
+
+If you try the application with the direct IP (something like [http://52.174.25.153:8080](http://52.174.25.153:8080), you will have an error during the authentication step. 
+
+If you get the logs from the `Contoso` pod using the command `kubectl logs [podname]` you will see something like:
+
+```
+java.lang.IllegalArgumentException: Not a valid domain name: '52.174.25.153'
+        at com.google.common.base.Preconditions.checkArgument(Preconditions.java:210)
+        at com.google.common.net.InternetDomainName.<init>(InternetDomainName.java:155)
+        at com.google.common.net.InternetDomainName.from(InternetDomainName.java:216)
+        at com.mycompany.myapp.security.oauth2.OAuth2CookieHelper.getCookieDomain(OAuth2CookieHelper.java:296)
+        at com.mycompany.myapp.security.oauth2.OAuth2CookieHelper.createCookies(OAuth2CookieHelper.java:109)
+        at com.mycompany.myapp.security.oauth2.OAuth2AuthenticationService.authenticate(OAuth2AuthenticationService.java:70)
+        at com.mycompany.myapp.web.rest.AuthResource.authenticate(AuthResource.java:51)
+```
+
+To be able to resolve this issue, open the resource group **generated** by Azure (not **rgkub** for instance), and open the **Public IP Address** resource:
+
+![](assets/publicAddress01.PNG)
+
+Then on the **configuraition** tab, add a sub domain (`snowkub` in my example):
+
+![](assets/publicAddress02.PNG)
+
+Now use the fully complete address to reach your **Contoso** front web application:
+
+[http://snowkub.westeurope.cloudapp.azure.com:8080](http://snowkub.westeurope.cloudapp.azure.com:8080)
+
+
+![](assets/finalresult.PNG)
