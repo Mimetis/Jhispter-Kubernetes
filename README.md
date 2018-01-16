@@ -1,7 +1,7 @@
 # Jhispter-Kubernetes
 Demos Jhispter and Kubernetes and microservices
 
-![](assets/architecture.PNG)
+![](assets/architecture.png)
 
 ## 1) Generate all 4 projects
 
